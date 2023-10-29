@@ -1,54 +1,41 @@
-// You are using GCC
 #include <iostream>
 using namespace std;
-
-struct RideRequest {
-    int estimatedPickUpTime;
-};
-
-void swap(RideRequest& a, RideRequest& b) {
-    RideRequest temp = a;
-    a = b;
-    b = temp;
-}
-
-void insertRideRequest(RideRequest heap[], int& heapSize, RideRequest newRequest) {
-    heapSize = heapSize + 1;
-    int smallest = heapSize;
-    heap[smallest] = newRequest;
-    while(smallest>1){
-        int parent = smallest/2;
-        
-        if(heap[smallest].estimatedPickUpTime<heap[parent].estimatedPickUpTime){
-           swap(heap[smallest].estimatedPickUpTime,heap[parent].estimatedPickUpTime);
-           smallest = parent;
-        }
-        else return;
-        
-        
+void max_heap(int *arr, int m, int n)
+{ 
+    int largest = m;
+    int leftChild = 2*m;
+    int rightChild =(2*m)+1;
+    
+    if(leftChild<=n && arr[leftChild]>arr[largest]){
+        largest = leftChild;
+    }
+    if(rightChild<=n && arr[rightChild]>arr[largest]){
+        largest = rightChild;
     }
     
-}
-
-void printHeap(RideRequest arr[],int n){
-    for(int i=1;i<=n;i++){
-        cout<<arr[i].estimatedPickUpTime<<" ";
+    if(largest!=m){
+        swap(arr[largest],arr[m]);
+        max_heap(arr,largest,n);
     }
+    
+    
 }
-
+void build_maxheap(int *a, int n) {
+  int k;
+  for(k = n/2; k >= 1; k--) {
+      max_heap(a,k,n);
+  }
+}
 int main() {
-    RideRequest minHeap[100];
-    int heapSize = 0;
-
-    while (true) {
-        RideRequest newRequest;
-        if (!(cin >> newRequest.estimatedPickUpTime)) {
-            break;
-        }
-
-        insertRideRequest(minHeap, heapSize, newRequest);
-    }
-    printHeap(minHeap, heapSize);
-
-    return 0;
+  int n, i;
+  cin>>n;
+  
+  int a[n];
+  for (i = 1; i <= n; i++) {
+     cin>>a[i];
+  }
+  build_maxheap(a, n);
+  for (i = 1; i <= n; i++) {
+      cout<<a[i]<<" ";
+  }
 }
