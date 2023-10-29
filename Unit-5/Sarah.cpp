@@ -1,4 +1,4 @@
-// You are using GCC
+//SlickBack Onichan
 #include <iostream>
 using namespace std;
 
